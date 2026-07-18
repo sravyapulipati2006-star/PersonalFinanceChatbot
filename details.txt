@@ -1,0 +1,17 @@
+Database layer (database.py)
+
+Users, expenses, and budgets tables
+Full set of functions: add/get for each
+
+Two working interfaces:
+
+chatbot.py — terminal-based chatbot
+app.py — web-based chatbot (Streamlit) with a sidebar, progress bars, and clean summary tables
+
+Features:
+
+Persistent user across sessions
+Natural language expense logging (multiple phrasings)
+Budget limits with over/near-budget warnings
+Expense summary view
+Reset button to start fresh
