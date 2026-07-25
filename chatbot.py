@@ -13,14 +13,11 @@ def parse_expense(text):
 import os
 
 def get_or_create_user(name):
-    if os.path.exists('user_id.txt'):
-        with open('user_id.txt', 'r') as f:
-            return int(f.read().strip())
+    existing_id = get_user_by_name(name)
+    if existing_id:
+        return existing_id
     else:
-        user_id = add_user(name)
-        with open('user_id.txt', 'w') as f:
-            f.write(str(user_id))
-        return user_id
+        return add_user(name)
 
 def chat():
     print("Welcome to your Personal Finance Chatbot!")

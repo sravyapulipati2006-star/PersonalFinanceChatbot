@@ -1,0 +1,4 @@
+finance.db
+user_id.txt
+__pycache__/
+*.pyc
