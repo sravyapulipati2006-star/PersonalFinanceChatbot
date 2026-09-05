@@ -1,16 +1,29 @@
 import streamlit as st
+
 from database import (
-    init_db, add_user, add_expense, get_expenses, add_budget_limit,
-    get_budget_limit, get_total_spent, get_user_by_name,
-    get_categories, delete_expense, get_all_budgets, update_budget_limit,
-    add_income, get_income, get_total_income, delete_income
+    init_db,
+    add_user,
+    add_expense,
+    get_expenses,
+    add_budget_limit,
+    get_budget_limit,
+    get_total_spent,
+    get_user_by_name,
+    get_categories,
+    delete_expense,
+    get_all_budgets,
+    update_budget_limit,
+    add_income,
+    get_income,
+    get_total_income,
+    delete_income
 )
+
 from datetime import date
 import re
 import os
 import io
 import csv
-
 init_db()
 
 def get_or_create_user(name):
@@ -358,6 +371,9 @@ with st.sidebar:
                         st.error("Could not delete that expense.")
             else:
                 st.write("No expenses to delete yet.")
+                # ---------- Edit Expense ----------
+                with st.expander("✏️ Edit Expense"):
+                  ...
 
         # ---------- Delete individual income entries ----------
         with st.expander("🗑️ Delete an income entry"):
@@ -417,11 +433,14 @@ else:
     st.write(f"Hi {st.session_state.name}! Type a message below.")
     user_id = st.session_state.user_id
 
-    with st.form("message_form"):
+    with st.form("message_form", clear_on_submit=True):
         text = st.text_input(
             "Log expense",
-            placeholder="200 on food, or set budget 2000 for food"
+            placeholder="200 on food, or set budget 2000 for food",
+            key="expense_input"
         )
+
+
         _, mid_col, _ = st.columns([1, 1, 1])
         with mid_col:
             send = st.form_submit_button("Enter", use_container_width=True)
@@ -434,12 +453,14 @@ else:
             category = set_match.group(2).capitalize()
             add_budget_limit(user_id, category, limit_amount)
             st.success(f"Set your {category} budget to {limit_amount}.")
+           
         else:
             amount, category = parse_expense(text)
             if amount:
                 today = str(date.today())
                 add_expense(user_id, category, amount, today)
                 st.success(f"Logged {amount} under {category}.")
+                
 
                 limit = get_budget_limit(user_id, category)
                 if limit:
